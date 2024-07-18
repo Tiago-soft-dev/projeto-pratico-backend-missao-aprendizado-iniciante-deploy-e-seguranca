@@ -34,7 +34,7 @@ app.post('/eventos', async (req,res)=>{
 //endpoint GET/all
 app.get('/eventos', async (req,res)=>{
     const eventos = await collection.find().toArray()
-    if(eventos.length == -1){
+    if(eventos.length == 0){
         return res.send('sem eventos cadastrados')    }
     res.send(eventos)
 })
