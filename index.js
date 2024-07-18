@@ -46,6 +46,20 @@ app.get('/eventos/:id', async (req,res)=>{
     res.send(evento)
 })
 
+//endpoint PUT/id
+app.put('/eventos/:id', async (req,res)=>{
+    const id = req.params.id
+    const novoEvento = req.body
+    const evento = await collection.findOne({_id: new ObjectId(id)})
+    
+    if(!evento){
+        return res.send('erro ao buscar evento')}
+    if(!novoEvento.nome || !novoEvento.data || !novoEvento.local){
+        return res.send('corpo da requisição inválido')    }
+
+    await collection.updateOne({_id: new ObjectId(id)}, {$set: novoEvento})
+    res.send('evento atualizado com sucesso')
+})
 
 
 
