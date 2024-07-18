@@ -43,6 +43,8 @@ app.get('/eventos', async (req,res)=>{
 app.get('/eventos/:id', async (req,res)=>{
     const id = req.params.id
     const evento = await collection.findOne({_id: new ObjectId(id)})
+    if(!evento){
+        return res.send('evento não localizado')    }
     res.send(evento)
 })
 
@@ -59,6 +61,13 @@ app.put('/eventos/:id', async (req,res)=>{
 
     await collection.updateOne({_id: new ObjectId(id)}, {$set: novoEvento})
     res.send('evento atualizado com sucesso')
+})
+
+//endpoint DELETE/id
+app.delete('/eventos/:id', async (req,res)=>{
+    const id = req.params.id
+    await collection.deleteOne({_id: new ObjectId(id)})
+    res.send('evento excluido com sucesso')
 })
 
 
