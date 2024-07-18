@@ -16,11 +16,9 @@ async function main(){
 try {
     console.log('conectando ao DB');
     await client.connect()
-    console.log('conectado ao DB');
-    
-} catch (error) {
-    console.log(`erro na conexao ao DB: ${error.message}`);
-}
+    console.log('conectado ao DB')} 
+catch (error) {
+    console.log(`erro na conexao ao DB: ${error.message}`)}
 
 const db = client.db(dbName)
 const collection = db.collection('eventos')
@@ -36,6 +34,8 @@ app.post('/eventos', async (req,res)=>{
 //endpoint GET/all
 app.get('/eventos', async (req,res)=>{
     const eventos = await collection.find().toArray()
+    if(eventos.length == -1){
+        return res.send('sem eventos cadastrados')    }
     res.send(eventos)
 })
 
