@@ -17,15 +17,36 @@ try {
     console.log('conectando ao DB');
     await client.connect()
     console.log('conectado ao DB');
-    const db = client.db(dbName)
-    const collection = db.collection('eventos')
+    
 } catch (error) {
     console.log(`erro na conexao ao DB: ${error.message}`);
 }
 
+const db = client.db(dbName)
+const collection = db.collection('eventos')
 
+//implementação dos endpoints
+//endpoint POST/eventos
+app.post('/eventos', async (req,res)=>{
+   const evento = req.body
+    await collection.insertOne(evento)
+    res.send('evento cadastrado com sucesso')
+})
+
+//endpoint GET/all
+app.get('/eventos', async (req,res)=>{
+    const eventos = await collection.find().toArray()
+    res.send(eventos)
+
+
+})
+
+
+
+
+
+app.listen(3000) //configura o app para o listen na porta 3000
 }
 main()
 
 
-app.listen(3000) //configura o app para o listen na porta 3000
