@@ -1,6 +1,6 @@
 require('dotenv').config() //importação do module dotenv
 const express = require('express') //importacao do express
-const { MongoClient } = require('mongodb') //importacao do mongoclient
+const { MongoClient, ObjectId } = require('mongodb') //importacao do mongoclient
 const app = express() //instancia o aplicativo express na variável app
 app.use(express.json()) // parse de json para objeto javascript
 
@@ -37,8 +37,13 @@ app.post('/eventos', async (req,res)=>{
 app.get('/eventos', async (req,res)=>{
     const eventos = await collection.find().toArray()
     res.send(eventos)
+})
 
-
+//endpoint GET/id
+app.get('/eventos/:id', async (req,res)=>{
+    const id = req.params.id
+    const evento = await collection.findOne({_id: new ObjectId(id)})
+    res.send(evento)
 })
 
 
